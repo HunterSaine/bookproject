@@ -13,7 +13,7 @@ while i < 15:
     j = k["bookmakers"]
     l = (j[1])
     z = 0
-    while z < 12:
+    while z < 1:
         l = (j[z])
         m = l["markets"]
         h2h = m[0]
@@ -25,13 +25,14 @@ while i < 15:
         
         team_one_h2h = ind[0]
         team_two_h2h = ind[1]
-        print(i,z)
-        print(f"Sportsbook: {l["title"]}") 
+        f = open("sportslines.txt")
+        #f.write(i,z)
+        #f.write(f"Sportsbook: {l["title"]}") 
         h2h["outcomes"] 
         
-        print(f"Moneyline: {team_one_h2h["name"]} {team_one_h2h["price"]} vs {team_two_h2h["name"]} {team_two_h2h["price"]}")
-        print(f"Spread: {team_one_spread["name"]} {team_one_spread["price"]} {team_one_spread["point"]} vs {team_two_spread["name"]} {team_two_spread["price"]} {team_two_spread["point"]}")
+        f.write(f"Moneyline: {team_one_h2h["name"]} {team_one_h2h["price"]} vs {team_two_h2h["name"]} {team_two_h2h["price"]}")
+        f.write(f"Spread: {team_one_spread["name"]} {team_one_spread["price"]} {team_one_spread["point"]} vs {team_two_spread["name"]} {team_two_spread["price"]} {team_two_spread["point"]}")
 
-        print()
+        f.write()
         z += 1
     i += 1
