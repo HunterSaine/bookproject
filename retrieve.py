@@ -7,8 +7,13 @@ response = requests.get("https://api.the-odds-api.com/v4/sports/americanfootball
 
 
 json_data = response.json() if response and response.status_code == 200 else None
+
 formatted_json = json.dumps(json_data, indent=2) #format json response
-#near_earth_objects = json_data["near_earth_objects"] #isoloate list of near earth objects
+if len(formatted_json) < 5:     
+    print("Out of API request. Please try again later")
+    quit()
+
+
 
 #f = open("sportslines.txt", "a")
 #f.write(formatted_json)
@@ -38,6 +43,13 @@ try:
     fanduel_spread = fanduel_info[1]
     fanduel_spread_team1 = fanduel_spread["outcomes"][0]
     fanduel_spread_team2 = fanduel_spread["outcomes"][1]
+
+    draftkings_h2h = draftkings_info[0]
+    draftkings_h2h_team1 = draftkings_h2h["outcomes"][0]
+    draftkings_h2h_team2 = draftkings_h2h["outcomes"][1]
+    draftkings_spread = draftkings_info[1]
+    draftkings_spread_team1 = draftkings_spread["outcomes"][0]
+    draftkings_spread_team2 = draftkings_spread["outcomes"][1]
 #print(fanduel_h2h_team1)
     if fanduel_h2h_team1["price"] >= 0:
         print("Fanduel Odds:")
