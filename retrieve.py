@@ -2,7 +2,8 @@ import requests
 import json
 
 apikey = 'e9be841a2b734322476b32827df51230'
-response = requests.get("https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=e9be841a2b734322476b32827df51230&regions=us&markets=h2h,spreads&oddsFormat=american")
+apikeywgu ="b0deb1a32f7c45cb9785d4d1405b6a5a"
+response = requests.get("https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=b0deb1a32f7c45cb9785d4d1405b6a5a&regions=us&markets=h2h,spreads&oddsFormat=american")
 
 json_data = response.json() if response and response.status_code == 200 else None
 formatted_json = json.dumps(json_data, indent=2) #format json response
@@ -14,11 +15,20 @@ if len(formatted_json) < 5:
 fanduel_info = ""
 fanduel_h2h = ""
 draftkings_info = ""
-teamselect = "Pittsburgh Steelers"
-#input("Which team would you like info on? (example format: Pittsburgh Steelers)")
+teamselect = input("Which team would you like info on? ")
+print()
 i = 0 
 while i < len(json_data):
     if json_data[i]["home_team"] == teamselect  :
+        j = 0 
+        while j < len(json_data[i]["bookmakers"]):
+            #print(json_data[i]["bookmakers"][j])
+            if json_data[i]["bookmakers"][j]['key'] == "fanduel":
+                fanduel_info = json_data[i]["bookmakers"][j]["markets"]
+            elif json_data[i]["bookmakers"][j]['key'] == "draftkings":
+                draftkings_info = json_data[i]["bookmakers"][j]["markets"]
+            j += 1
+    elif json_data[i]["away_team"] == teamselect :
         j = 0 
         while j < len(json_data[i]["bookmakers"]):
             #print(json_data[i]["bookmakers"][j])
@@ -49,12 +59,29 @@ try:
         print(f'{fanduel_h2h_team2['name']} {fanduel_h2h_team2['price']} ')
         print(f'Spread: {fanduel_spread_team1["name"]} +{fanduel_spread_team1["point"]} {fanduel_spread_team1['price']}')
         print(f'Spread: {fanduel_spread_team2["name"]} {fanduel_spread_team2["point"]} {fanduel_spread_team2['price']}')
-        print('')
+        print()
     else:
         print("Fanduel Odds")
         print(f'{fanduel_h2h_team1['name']} {fanduel_h2h_team1['price']} ')
         print(f'{fanduel_h2h_team2['name']} +{fanduel_h2h_team2['price']} ')
-        print(f'{fanduel_spread_team1["name"]} +{fanduel_spread_team1["point"]} {fanduel_spread_team1['price']}')    
+        print(f'{fanduel_spread_team1["name"]} {fanduel_spread_team1["point"]} {fanduel_spread_team1['price']}') 
+        print(f'{fanduel_spread_team2["name"]} +{fanduel_spread_team2["point"]} {fanduel_spread_team2['price']}') 
+
+        print()   
+    if draftkings_h2h_team1["price"] >= 0 :
+        print("DraftKings Odds:")
+        print(f'{draftkings_h2h_team1['name']} +{draftkings_h2h_team1['price']} ')
+        print(f'{draftkings_h2h_team2['name']} {draftkings_h2h_team2['price']} ')
+        print(f'Spread: {draftkings_spread_team1["name"]} +{draftkings_spread_team1["point"]} {draftkings_spread_team1['price']}')
+        print(f'Spread: {draftkings_spread_team2["name"]} {draftkings_spread_team2["point"]} {draftkings_spread_team2['price']}')
+        print('')
+    else:
+        print("Draftkings Odss:")
+        print(f'{draftkings_h2h_team1['name']} {draftkings_h2h_team1['price']} ')
+        print(f'{draftkings_h2h_team2['name']} +{draftkings_h2h_team2['price']} ')
+        print(f'Spread: {draftkings_spread_team1["name"]} {draftkings_spread_team1["point"]} {draftkings_spread_team1['price']}') 
+        print(f'Spread: {draftkings_spread_team2["name"]} +{draftkings_spread_team2["point"]} {draftkings_spread_team2['price']}')
+
 except:
     print("Error: Enter valid team. Format ex. Miami Dolphins")
 
@@ -70,3 +97,5 @@ while i < len(json_data):
                 draftkings_info = json_data[i]["bookmakers"][j]["markets"]
             j += 1
     i += 1
+
+    
