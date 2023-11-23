@@ -18,6 +18,7 @@ fanduel_info = ""
 fanduel_h2h = ""
 draftkings_info = ""
 unibet_info = ''
+caesars_info = ""
 print()
 i = 0 
 while i < len(json_data):
@@ -31,6 +32,8 @@ while i < len(json_data):
                 draftkings_info = json_data[i]["bookmakers"][j]["markets"]
             elif json_data[i]["bookmakers"][j]['key'] == "unibet_us":
                 unibet_info = json_data[i]["bookmakers"][j]["markets"]
+            elif json_data[i]["bookmakers"][j]['key'] == "williamhill_us":
+                caesars_info = json_data[i]["bookmakers"][j]["markets"]
             j += 1
     elif json_data[i]["away_team"] == teamselect :
         j = 0 
@@ -42,6 +45,8 @@ while i < len(json_data):
                 draftkings_info = json_data[i]["bookmakers"][j]["markets"]
             elif json_data[i]["bookmakers"][j]['key'] == "unibet_us":
                 unibet_info = json_data[i]["bookmakers"][j]["markets"]
+            elif json_data[i]["bookmakers"][j]['key'] == "williamhill_us":
+                caesars_info = json_data[i]["bookmakers"][j]["markets"]
             
             j += 1
     i += 1
@@ -67,6 +72,15 @@ try:
     unibet_spread = unibet_info[1]
     unibet_spread_team1 = unibet_spread["outcomes"][0]
     unibet_spread_team2 = unibet_spread["outcomes"][1]
+#caesars variables
+    caesars_h2h = caesars_info[0]
+    caesars_h2h_team1 = caesars_h2h["outcomes"][0]
+    caesars_h2h_team2 = caesars_h2h["outcomes"][1]
+    caesars_spread = caesars_info[1]
+    caesars_spread_team1 = caesars_spread["outcomes"][0]
+    caesars_spread_team2 = caesars_spread["outcomes"][1]
+
+#fanduel info
     if fanduel_h2h_team1["price"] >= 0:
         print("Fanduel Odds:")
         print("Moneyline: ")
@@ -117,19 +131,25 @@ try:
         print(f'Spread: {unibet_spread_team1["name"]} {unibet_spread_team1["point"]} {unibet_spread_team1['price']}') 
         print(f'Spread: {unibet_spread_team2["name"]} +{unibet_spread_team2["point"]} {unibet_spread_team2['price']}')
         print()
+    #caesars 
+    if caesars_h2h_team1["price"] >= 0 :
+        print("Caesars Odds:")
+        print("Moneyline: ")
+        print(f'{caesars_h2h_team1['name']} +{caesars_h2h_team1['price']} ')
+        print(f'{caesars_h2h_team2['name']} {caesars_h2h_team2['price']} ')
+        print(f'Spread: {caesars_spread_team1["name"]} +{caesars_spread_team1["point"]} {caesars_spread_team1['price']}')
+        print(f'Spread: {caesars_spread_team2["name"]} {caesars_spread_team2["point"]} {caesars_spread_team2['price']}')
+        print('')
+    else:
+        print("Caesars Odss:") 
+        print("Moneyline: ")
+        print(f'{caesars_h2h_team1['name']} {caesars_h2h_team1['price']} ')
+        print(f'{caesars_h2h_team2['name']} +{caesars_h2h_team2['price']} ')
+        print(f'Spread: {caesars_spread_team1["name"]} {caesars_spread_team1["point"]} {caesars_spread_team1['price']}') 
+        print(f'Spread: {caesars_spread_team2["name"]} +{caesars_spread_team2["point"]} {caesars_spread_team2['price']}')
+        print()
 
 except:
     print("Error: Enter valid team. Format ex. Miami Dolphins")
 
 i = 0
-while i < len(json_data):
-    if json_data[i]["away_team"] == teamselect  :
-        j = 0 
-        while j < len(json_data[i]["bookmakers"]):
-            #print(json_data[i]["bookmakers"][j])
-            if json_data[i]["bookmakers"][j]['key'] == "fanduel":
-                fanduel_info = json_data[i]["bookmakers"][j]["markets"]
-            elif json_data[i]["bookmakers"][j]['key'] == "draftkings":
-                draftkings_info = json_data[i]["bookmakers"][j]["markets"]
-            j += 1
-    i += 1
